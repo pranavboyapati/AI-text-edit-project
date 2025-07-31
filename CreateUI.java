@@ -17,11 +17,16 @@ public class CreateUI
         window.setAutoRequestFocus(true);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setBackground(Color.LIGHT_GRAY);
-        window.setVisible(true);
         window.setLayout(null);
 
         // Add the button components
+        window.add(CreateUI.createButton("Fix mistakes", "#F5F5F5", "#2C2C2C", 110, 32, 8, 20, 226));
+        window.add(CreateUI.createButton("Improve readability", "#F5F5F5", "#2C2C2C", 161, 32, 8, 149, 226));
+        window.add(CreateUI.createButton("Write this better", "#F5F5F5", "#2C2C2C", 139, 32, 8, 329, 226));
+        window.add(CreateUI.createButton("Save", "#F5F5F5", "#14AE5C", 53, 32, 8, 487, 226));
 
+        // Make all components visible
+        window.setVisible(true);
     }
 
     /**
