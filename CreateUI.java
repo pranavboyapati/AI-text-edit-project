@@ -9,6 +9,7 @@ public class CreateUI
      * Initializes the user interface for the application.
      * This method creates a window and adds all necessary UI components to it.
      */
+    // TODO: This method should be adjusted so that UI components are responsive to window resizing.
     public static void initUI()
     {
         // Create a window for the application
@@ -25,8 +26,37 @@ public class CreateUI
         window.add(CreateUI.createButton("Write this better", "#F5F5F5", "#2C2C2C", 139, 32, 8, 329, 226));
         window.add(CreateUI.createButton("Save", "#F5F5F5", "#14AE5C", 53, 32, 8, 487, 226));
 
+        // Add the text area for input
+        window.add(CreateUI.createTextArea("Or describe your changes here...", "#B3B3B3", "#FFFFFF", 520, 40, 20, 20, 267));
+
         // Make all components visible
         window.setVisible(true);
+    }
+
+    /**
+     * Creates a text area with specified text, font color, background color, width, height, corner radius, and position.
+     * This method creates a JTextArea with the specified properties.
+     * 
+     * @param text the text to display in the text area
+     * @param fontColor the color of the font
+     * @param backgroundColor the background color of the text area
+     * @param width the width of the text area
+     * @param height the height of the text area
+     * @param cornerRadius the radius of the text area's corners
+     * @param xPos the x position of the text area
+     * @param yPos the y position of the text area
+     * @return A JTextArea object with the specified properties
+     */
+    public static JTextArea createTextArea(String text, String fontColor, String backgroundColor, int width, int height, int cornerRadius, int xPos, int yPos)
+    {
+        JTextArea textArea = new RoundedTextArea(text, cornerRadius, Color.decode(backgroundColor));
+        textArea.setBounds(xPos, yPos, width, height);
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+        textArea.setFont(new Font("Arial", Font.PLAIN, 14));
+        textArea.setForeground(Color.decode(fontColor));
+        textArea.setBorder(new RoundedBorder(cornerRadius, Color.decode(fontColor)));
+        return textArea;
     }
 
     /**
@@ -80,6 +110,48 @@ class RoundedButton extends JButton {
     /**
      * Paints the button with rounded corners and the specified background color.
      * This method overrides the paintComponent method to draw a rounded rectangle as the button's background.
+     * 
+     * @param g the Graphics object used for painting
+     */
+    @Override
+    protected void paintComponent(Graphics g) {
+        Graphics2D g2 = (Graphics2D) g.create();
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        // Fill rounded rectangle background
+        g2.setColor(this.bgColor);
+        g2.fillRoundRect(0, 0, getWidth(), getHeight(), this.radius, this.radius);
+
+        g2.dispose();
+        super.paintComponent(g);
+    }
+}
+
+/**
+ * A custom JTextArea that has rounded corners and a specified background color.
+ * This class extends JTextArea to create a text field with rounded corners and a custom background color.
+ */
+class RoundedTextArea extends JTextArea {
+    private int radius;
+    private Color bgColor;
+
+    /**
+     * Constructs a RoundedTextArea with the specified text, corner radius, and background color.
+     * 
+     * @param text the text to display by default
+     * @param radius the radius of the corners
+     * @param bgColor the background color
+     */
+    public RoundedTextArea(String text, int radius, Color bgColor) {
+        super(text);
+        this.radius = radius;
+        this.bgColor = bgColor;
+        setOpaque(false);
+    }
+
+    /**
+     * Paints the text area with rounded corners and the specified background color.
+     * This method overrides the paintComponent method to draw a rounded rectangle as the text area's background.
      * 
      * @param g the Graphics object used for painting
      */
